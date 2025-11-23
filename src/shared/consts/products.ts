@@ -142,5 +142,41 @@ export const PRODUCTS = [
     discount: 15,
     image: 'https://image.msscdn.net/thumbnails/images/goods_img/20210910/2122596/2122596_17182428329624_big.jpg?w=1200',
     description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
-  }
+  },
+  {
+    id: 17,
+    brand: 'Urban Basics',
+    name: 'Turtleneck Knit Top',
+    price: 48000,
+    discount: 15,
+    image: 'https://image.msscdn.net/thumbnails/images/goods_img/20250310/4873589/4873589_17415693259604_big.jpg?w=1200',
+    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
+  },
+  {
+    id: 18,
+    brand: 'Urban Basics',
+    name: 'Turtleneck Knit Top',
+    price: 48000,
+    discount: 15,
+    image: 'https://d3ha2047wt6x28.cloudfront.net/cJDbmBQDn2Y/pr:NEW_GOODS_THUMB_WEBP/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzL2M2ZjFiYmFiZjcwMzNiMmQ0YzdlZDdhNmViZDBjYzM2LmdpZg',
+    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
+  },
+  {
+    id: 19,
+    brand: 'Urban Basics',
+    name: 'Turtleneck Knit Top',
+    price: 48000,
+    discount: 15,
+    image: 'https://d3ha2047wt6x28.cloudfront.net/bAJY98Fa_2Y/pr:NEW_GOODS_THUMB_WEBP/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzk5MDcwMGUzYWM5Mzk4YzRjOWM5YTU1YjM0ZWVjYWZiLmpwZw',
+    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
+  },
+  {
+    id: 20,
+    brand: 'Urban Basics',
+    name: 'Turtleneck Knit Top',
+    price: 48000,
+    discount: 15,
+    image: 'https://d3ha2047wt6x28.cloudfront.net/GJgsBTTHg2E/pr:NEW_GOODS_THUMB_WEBP/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzM0OGQ2OGVlNjMxZDRlMWRmMTg4MDYxM2IwOGFiNDMyLmpwZw',
+    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
+  },
 ];
