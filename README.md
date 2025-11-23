@@ -1,156 +1,92 @@
-# 🛍️ ThatZFit Shopping
+# 🎉 Thazfit - 입어보자 사자
 
-현대적이고 세련된 UI/UX를 갖춘 이커머스 쇼핑몰 애플리케이션입니다.
+**Thazfit**는 AI 기반 가상 피팅 플러그인을 체험할 수 있는 최신 이커머스 쇼핑몰 데모 사이트입니다.
 
 ## ✨ 주요 기능
-
-- 🏠 **홈페이지**: 히어로 배너, 카테고리 칩, 인기 상품 목록
-- 📦 **상품 상세**: 상품 이미지, 상세 정보, 옵션 선택, 장바구니 담기
-- 🎨 **모던한 디자인**: Tailwind CSS를 활용한 반응형 디자인
-- ⚡ **빠른 성능**: Vite 기반의 빠른 개발 및 빌드 환경
-- 🔄 **React Router**: SPA 라우팅 지원
+- **홈페이지**: 히어로 배너, 카테고리 칩, 실시간 HOT 상품 리스트
+- **상품 상세**: 고해상도 이미지 갤러리, 옵션 선택, 장바구니 담기
+- **가상 피팅 플러그인**: `ThatzfitService.js` 를 통해 AI 가상 피팅 기능을 바로 테스트 가능
+- **프리미엄 디자인**: Tailwind CSS 기반 그라데이션, 마이크로 애니메이션, 다크 모드 지원
+- **빠른 개발 환경**: Vite + React 19 + TypeScript
 
 ## 🛠️ 기술 스택
-
-### Core
-- **React 19.2.0** - UI 라이브러리
-- **TypeScript** - 타입 안정성
-- **Vite 7.2.4** - 빌드 도구 및 개발 서버
-
-### Styling
-- **Tailwind CSS 4.1.17** - 유틸리티 기반 CSS 프레임워크
-- **tailwindcss-animate** - 애니메이션 유틸리티
-- **Lucide React** - 아이콘 라이브러리
-
-### UI Components
-- **Radix UI** - 접근성 높은 UI 컴포넌트
-- **class-variance-authority** - 컴포넌트 variant 관리
-- **clsx & tailwind-merge** - 클래스명 유틸리티
-
-### Routing
-- **React Router DOM 7.9.6** - 클라이언트 사이드 라우팅
-
-### Development
-- **ESLint** - 코드 품질 관리
-- **React Compiler** - React 성능 최적화
-- **TypeScript ESLint** - TypeScript 린팅
+- **React 19.2.0** – 최신 UI 라이브러리
+- **TypeScript** – 정적 타입 검사
+- **Vite 7.2.4** – 초고속 개발 서버 & 번들링
+- **Tailwind CSS 4.1.17** – 유틸리티‑first CSS 프레임워크
+- **React Router DOM 7.9.6** – SPA 라우팅 (HashRouter 사용)
+- **ThatzfitService.js** – 카카오톡·카카오스토리 등에서 공유 가능한 가상 피팅 플러그인
+- **ESLint + React Compiler** – 코드 품질 및 성능 최적화
 
 ## 📁 프로젝트 구조
-
 ```
 thatzfit-shopping/
-├── src/
-│   ├── pages/              # 페이지 컴포넌트
-│   │   ├── home/          # 홈 페이지
-│   │   └── product-detail/ # 상품 상세 페이지
-│   ├── widgets/           # 위젯 컴포넌트
-│   │   ├── layout/        # 레이아웃 컴포넌트
-│   │   ├── header/        # 헤더
-│   │   ├── footer/        # 푸터
-│   │   └── product-list/  # 상품 목록
-│   ├── entities/          # 엔티티/모델
-│   ├── shared/            # 공유 컴포넌트 및 유틸리티
-│   ├── assets/            # 정적 리소스
-│   ├── App.tsx            # 메인 앱 컴포넌트
-│   ├── main.tsx           # 앱 진입점
-│   └── index.css          # 글로벌 스타일
-├── public/                # 정적 파일
-└── package.json
+├─ src/
+│  ├─ pages/
+│  │  ├─ home/            # 메인 페이지
+│  │  └─ product-detail/  # 상품 상세 페이지
+│  ├─ widgets/
+│  │  ├─ layout/          # 레이아웃 (Header, Footer 등)
+│  │  └─ product-list/    # 상품 리스트 컴포넌트
+│  ├─ entities/          # 도메인 모델
+│  ├─ shared/            # 공통 유틸리티 & 컴포넌트
+│  ├─ assets/            # 정적 이미지·아이콘
+│  ├─ App.tsx            # 최상위 라우터 (HashRouter)
+│  ├─ main.tsx           # React 진입점
+│  └─ index.css          # 글로벌 스타일
+├─ public/
+│  └─ og-image-v2.png    # OG 이미지 (1200×630 PNG) – 캐시 회피용 버전 2
+├─ vite.config.ts        # Vite 설정 (base: '/thatzfit-test-page/')
+├─ tailwind.config.js    # Tailwind 설정
+├─ tsconfig.json         # TypeScript 설정
+└─ package.json          # 스크립트, 의존성 등
 ```
 
 ## 🚀 시작하기
+### 요구 사항
+- Node.js 18 이상
+- npm (또는 Yarn)
 
-### 필수 요구사항
-
-- Node.js 18.0 이상
-- npm 또는 yarn
-
-### 설치
-
+### 설치 및 실행
 ```bash
 # 의존성 설치
 npm install
-```
 
-### 개발 서버 실행
-
-```bash
+# 개발 서버 실행 (http://localhost:5173)
 npm run dev
 ```
 
-개발 서버가 `http://localhost:5173`에서 실행됩니다.
-
-### 빌드
-
+### 배포
 ```bash
-npm run build
+# GitHub Pages 로 배포 (dist 폴더 자동 업로드)
+npm run deploy
 ```
+> **주의**: `index.html`에 설정된 메타 태그와 OG 이미지(`og-image-v2.png`)는 최신 버전이며, 카카오톡·페이스북·트위터 등에서 올바르게 미리보기가 됩니다.
 
-프로덕션 빌드가 `dist/` 폴더에 생성됩니다.
-
-### 프리뷰
-
-```bash
-npm run preview
-```
-
-빌드된 애플리케이션을 로컬에서 미리 볼 수 있습니다.
-
-### 린팅
-
-```bash
-npm run lint
+## 📱 메타 태그 (핵심)
+```html
+<title>Thazfit - 입어보자 사자</title>
+<meta name="description" content="ThatzFit 가상 피팅 플러그인을 테스트할 수 있는 쇼핑몰 사이트입니다. AI 기반 가상 피팅 기술을 체험해보세요." />
+<meta property="og:title" content="Thazfit - 입어보자 사자" />
+<meta property="og:description" content="ThatzFit 가상 피팅 플러그인을 테스트할 수 있는 쇼핑몰 사이트입니다. AI 기반 가상 피팅 기술을 체험해보세요." />
+<meta property="og:image" content="https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page/og-image-v2.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="Thazfit Shopping" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page/og-image-v2.png" />
+<meta property="kakao:image" content="https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page/og-image-v2.png" />
 ```
 
 ## 🎨 디자인 시스템
-
-이 프로젝트는 Tailwind CSS를 기반으로 한 커스텀 디자인 시스템을 사용합니다:
-
-- **Primary Color**: Pink/Rose 그라데이션
-- **Typography**: 시스템 폰트 스택
-- **Spacing**: Tailwind 기본 스페이싱 시스템
-- **Animations**: 부드러운 호버 효과 및 트랜지션
-
-## 📱 주요 페이지
-
-### 홈페이지 (`/`)
-- 히어로 배너 (겨울 신상 컬렉션)
-- 빠른 카테고리 칩 (특가, 타임특가, 무료배송 등)
-- 실시간 인기 상품 목록
-
-### 상품 상세 페이지 (`/product/:id`)
-- 상품 이미지 갤러리
-- 상품 정보 (이름, 가격, 설명)
-- 옵션 선택 (사이즈, 색상 등)
-- 장바구니 담기 기능
-
-## 🔧 설정 파일
-
-- `vite.config.ts` - Vite 설정
-- `tailwind.config.js` - Tailwind CSS 설정
-- `tsconfig.json` - TypeScript 설정
-- `eslint.config.js` - ESLint 설정
-
-## 🌟 특징
-
-### React Compiler
-이 프로젝트는 React Compiler를 활성화하여 자동 메모이제이션 및 성능 최적화를 제공합니다.
-
-### Feature-Sliced Design
-프로젝트 구조는 Feature-Sliced Design 아키텍처를 참고하여 구성되었습니다:
-- **pages**: 페이지 레벨 컴포넌트
-- **widgets**: 복합 UI 블록
-- **entities**: 비즈니스 엔티티
-- **shared**: 공유 리소스
+- **Primary Color**: `#ec4899` → `#f43f5e` 그라데이션
+- **Typography**: 시스템 폰트 스택 (`Inter`, `Roboto` 등)
+- **Animations**: `tailwindcss-animate` 로 부드러운 호버·전환 효과
+- **Micro‑Interactions**: 버튼 hover, 카드 tilt 등
 
 ## 📝 라이선스
-
-Private Project
-
-## 🤝 기여
-
-이 프로젝트는 개인 프로젝트입니다.
+Private Project – 개인용 데모 및 학습 목적
 
 ---
 
-Made with ❤️ using React + TypeScript + Vite
+Made with ❤️ using **React**, **TypeScript**, **Vite**, and **Tailwind CSS**
