@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/thatzfit-test-page/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
