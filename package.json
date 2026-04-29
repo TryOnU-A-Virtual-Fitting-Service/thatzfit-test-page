@@ -1,5 +1,5 @@
 {
-  "homepage": "https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page",
+  "homepage": "https://demo.thatz.fit",
   "name": "thatzfit-shopping",
   "private": true,
   "version": "0.0.0",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "wrangler pages deploy dist --project-name thatzfit-demo --branch main"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
