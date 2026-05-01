@@ -1,14 +1,16 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '@/shared/consts/products';
+import { startThatzfitCapture } from '@/shared/lib/startThatzfitCapture';
 import { Button } from '@/shared/ui/button';
 import { ArrowLeft, Star, Share2, Heart, Truck, Shield } from 'lucide-react';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = PRODUCTS.find(p => p.id === Number(id));
+  const product = PRODUCTS.find((p) => p.id === Number(id));
   const [isLiked, setIsLiked] = React.useState(false);
+  const imageRef = React.useRef<HTMLImageElement>(null);
 
   if (!product) {
     return (
@@ -21,32 +23,31 @@ export const ProductDetailPage: React.FC = () => {
     );
   }
 
-  const discountedPrice = product.discount > 0 
-    ? Math.round(product.price / (1 - product.discount / 100))
-    : product.price;
+  const discountedPrice =
+    product.discount > 0
+      ? Math.round(product.price / (1 - product.discount / 100))
+      : product.price;
 
   return (
     <div className="min-h-screen bg-white pb-32 md:pb-20">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-white border-b border-[--color-border]">
         <div className="container mx-auto px-4 py-3 max-w-4xl flex items-center justify-between">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate(-1)}
-          >
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon">
               <Share2 className="h-5 w-5" />
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               onClick={() => setIsLiked(!isLiked)}
             >
-              <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+              <Heart
+                className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`}
+              />
             </Button>
           </div>
         </div>
@@ -56,12 +57,25 @@ export const ProductDetailPage: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Image Section - Reduced size */}
           <div className="w-full md:w-1/2">
-            <div className="aspect-[3/4] bg-[--color-muted] rounded-lg overflow-hidden max-w-md mx-auto">
-              <img 
-                src={product.image} 
-                alt={product.name} 
+            <div className="aspect-[3/4] bg-[--color-muted] rounded-lg overflow-hidden max-w-md mx-auto relative group">
+              <img
+                ref={imageRef}
+                src={product.image}
+                alt={product.name}
+                data-thatzfit-capturable
+                data-thatzfit-capture="clothing"
                 className="w-full h-full object-cover"
               />
+              <button
+                type="button"
+                aria-label={`${product.name} 입어보기`}
+                className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/25 group-hover:opacity-100 focus-visible:bg-black/25 focus-visible:opacity-100"
+                onClick={() => startThatzfitCapture(imageRef.current)}
+              >
+                <span className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-gray-900 shadow-lg">
+                  입어보기
+                </span>
+              </button>
             </div>
           </div>
 
@@ -81,11 +95,16 @@ export const ProductDetailPage: React.FC = () => {
             <div className="flex items-center gap-2 mb-6 pb-6 border-b border-[--color-border]">
               <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  <Star
+                    key={star}
+                    className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                  />
                 ))}
               </div>
               <span className="text-sm font-medium">4.8</span>
-              <span className="text-sm text-[--color-muted-foreground]">(1,234)</span>
+              <span className="text-sm text-[--color-muted-foreground]">
+                (1,234)
+              </span>
             </div>
 
             {/* Price */}
@@ -120,7 +139,9 @@ export const ProductDetailPage: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-medium">무료배송</p>
-                  <p className="text-xs text-[--color-muted-foreground]">오늘 주문시 내일 도착</p>
+                  <p className="text-xs text-[--color-muted-foreground]">
+                    오늘 주문시 내일 도착
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -129,7 +150,9 @@ export const ProductDetailPage: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-medium">안심구매</p>
-                  <p className="text-xs text-[--color-muted-foreground]">7일 이내 무료 반품</p>
+                  <p className="text-xs text-[--color-muted-foreground]">
+                    7일 이내 무료 반품
+                  </p>
                 </div>
               </div>
             </div>
@@ -138,7 +161,8 @@ export const ProductDetailPage: React.FC = () => {
             <div className="mb-8">
               <h3 className="text-base font-bold mb-3">상품 정보</h3>
               <p className="text-sm text-gray-700 leading-relaxed">
-                {product.description || '고품질 소재로 제작된 프리미엄 상품입니다. 세련된 디자인과 뛰어난 착용감으로 일상에서 편안하게 착용하실 수 있습니다.'}
+                {product.description ||
+                  '고품질 소재로 제작된 프리미엄 상품입니다. 세련된 디자인과 뛰어난 착용감으로 일상에서 편안하게 착용하실 수 있습니다.'}
               </p>
             </div>
           </div>
@@ -148,15 +172,13 @@ export const ProductDetailPage: React.FC = () => {
       {/* Bottom Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[--color-border] p-4 shadow-lg">
         <div className="container mx-auto max-w-4xl flex gap-3">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="flex-1 h-14 text-base font-bold border-2 border-[--color-primary] text-[--color-primary] hover:bg-[--color-accent]"
           >
             장바구니
           </Button>
-          <Button 
-            className="flex-1 h-14 text-base font-bold bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-lg"
-          >
+          <Button className="flex-1 h-14 text-base font-bold bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-lg">
             바로구매
           </Button>
         </div>
