@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '@/shared/consts/products';
-import { startThatzfitCapture } from '@/shared/lib/startThatzfitCapture';
 import { Button } from '@/shared/ui/button';
 import { ArrowLeft, Star, Share2, Heart, Truck, Shield } from 'lucide-react';
 
@@ -10,7 +9,6 @@ export const ProductDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const product = PRODUCTS.find((p) => p.id === Number(id));
   const [isLiked, setIsLiked] = React.useState(false);
-  const imageRef = React.useRef<HTMLImageElement>(null);
 
   if (!product) {
     return (
@@ -59,23 +57,10 @@ export const ProductDetailPage: React.FC = () => {
           <div className="w-full md:w-1/2">
             <div className="aspect-[3/4] bg-[--color-muted] rounded-lg overflow-hidden max-w-md mx-auto relative group">
               <img
-                ref={imageRef}
                 src={product.image}
                 alt={product.name}
-                data-thatzfit-capturable
-                data-thatzfit-capture="clothing"
                 className="w-full h-full object-cover"
               />
-              <button
-                type="button"
-                aria-label={`${product.name} 입어보기`}
-                className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/25 group-hover:opacity-100 focus-visible:bg-black/25 focus-visible:opacity-100"
-                onClick={() => startThatzfitCapture(imageRef.current)}
-              >
-                <span className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-gray-900 shadow-lg">
-                  입어보기
-                </span>
-              </button>
             </div>
           </div>
 

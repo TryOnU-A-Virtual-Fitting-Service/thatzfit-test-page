@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardContent, CardFooter } from '@/shared/ui/card';
-import { startThatzfitCapture } from '@/shared/lib/startThatzfitCapture';
 import { Heart } from 'lucide-react';
 
 export interface Product {
@@ -23,7 +22,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onClick,
 }) => {
   const [isLiked, setIsLiked] = React.useState(false);
-  const imageRef = React.useRef<HTMLImageElement>(null);
 
   return (
     <Card
@@ -32,26 +30,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     >
       <CardContent className="p-0 relative aspect-[3/4] overflow-hidden rounded-xl bg-[--color-muted] group">
         <img
-          ref={imageRef}
           src={product.image}
           alt={product.name}
-          data-thatzfit-capturable
-          data-thatzfit-capture="clothing"
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
         />
-        <button
-          type="button"
-          aria-label={`${product.name} 입어보기`}
-          className="absolute inset-0 z-10 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/25 group-hover:opacity-100 focus-visible:bg-black/25 focus-visible:opacity-100"
-          onClick={(e) => {
-            e.stopPropagation();
-            startThatzfitCapture(imageRef.current);
-          }}
-        >
-          <span className="rounded-full bg-white px-4 py-2 text-sm font-bold text-gray-900 shadow-lg">
-            입어보기
-          </span>
-        </button>
         {product.discount > 0 && (
           <div className="absolute top-2 left-2 z-20 bg-[--color-primary] text-white text-xs font-bold px-2.5 py-1.5 rounded-full shadow-lg">
             {product.discount}%
