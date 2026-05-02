@@ -56,6 +56,17 @@ npm install
 npm run dev
 ```
 
+### Loader cache version
+Production builds inject `ThatzfitService.js` automatically. The loader query is resolved from `THATZFIT_LOADER_VERSION`, then `THATZFIT_FE_MANIFEST_PATH`, then `THATZFIT_FE_REPO_PATH`.
+
+```bash
+# local smoke verification with a fixture FE manifest
+npm run verify:loader-version
+
+# local production build against the sibling ThatzFit-FE checkout
+THATZFIT_FE_REPO_PATH=../../ThatzFit-FE npm run build
+```
+
 ### 배포
 ```bash
 # GitHub Pages 로 배포 (dist 폴더 자동 업로드)

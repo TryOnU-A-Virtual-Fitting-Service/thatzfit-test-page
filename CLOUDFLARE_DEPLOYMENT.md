@@ -25,16 +25,33 @@ Push to `main` triggers:
 
 ```bash
 npm ci
-npm run build
+npm run verify:loader-version
+THATZFIT_FE_REPO_PATH=_external/ThatzFit-FE npm run build
 npx wrangler@4.86.0 pages deploy dist --project-name thatzfit-demo
 ```
+
+The workflow checks out `TryOnU-A-Virtual-Fitting-Service/ThatzFit-FE` to `_external/ThatzFit-FE` before the production build.
+
+The build injects the plugin loader script into `dist/index.html` as:
+
+```text
+https://cdn.thatz.fit/plugin/ThatzfitService.js?v=<resolved-version>
+```
+
+Resolution order:
+
+1. `THATZFIT_LOADER_VERSION`
+2. `THATZFIT_FE_MANIFEST_PATH`, requiring `src/Apps/main.tsx`
+3. `THATZFIT_FE_REPO_PATH`, using the FE git short SHA
+
+If none of these values is available during a production build, Vite fails with the checked env names and paths.
 
 ## Manual Deploy
 
 ```bash
 npm ci
-npm run build
-npm run deploy
+npm run verify:loader-version
+THATZFIT_FE_REPO_PATH=../../ThatzFit-FE npm run deploy
 ```
 
 Production domain:

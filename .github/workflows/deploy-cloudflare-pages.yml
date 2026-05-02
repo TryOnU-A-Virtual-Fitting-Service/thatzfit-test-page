@@ -2,6 +2,11 @@ name: Deploy demo to Cloudflare Pages
 
 on:
   workflow_dispatch:
+    inputs:
+      fe_ref:
+        description: ThatzFit-FE ref used for the loader cache version
+        required: false
+        default: main
   push:
     branches:
       - main
@@ -11,6 +16,7 @@ on:
       - package-lock.json
       - package.json
       - public/**
+      - scripts/**
       - src/**
       - tailwind.config.js
       - tsconfig*.json
@@ -33,6 +39,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout FE version source
+        uses: actions/checkout@v4
+        with:
+          repository: TryOnU-A-Virtual-Fitting-Service/ThatzFit-FE
+          ref: ${{ inputs.fe_ref || 'main' }}
+          token: ${{ secrets.CI_REPO_TOKEN || github.token }}
+          path: _external/ThatzFit-FE
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,7 +56,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify loader version injection
+        run: npm run verify:loader-version
+
       - name: Build
+        env:
+          THATZFIT_FE_REPO_PATH: _external/ThatzFit-FE
         run: npm run build
 
       - name: Deploy
