@@ -163,6 +163,56 @@ const thatzfitLoaderPlugin = (
   command: 'build' | 'serve',
   env: Env,
 ): Plugin => {
+  const devFeOrigin = env.THATZFIT_DEV_FE_ORIGIN?.trim().replace(/\/$/, '')
+
+  if (command === 'serve' && devFeOrigin) {
+    return {
+      name: 'thatzfit-local-dev-loader',
+      transformIndexHtml: {
+        order: 'post',
+        handler: () => [
+          {
+            tag: 'script',
+            children: `
+              (() => {
+                const existingPlugin = document.getElementById('thatzfit-plugin');
+                const plugin = existingPlugin ?? document.createElement('div');
+                plugin.id = 'thatzfit-plugin';
+                plugin.innerHTML = \`
+                  <div id="thatzfit-entry"></div>
+                  <div id="thatzfit-iframe-wrapper">
+                    <iframe
+                      id="thatzfit-iframe"
+                      style="display: none"
+                      title="thatzfit virtual fitting"
+                      srcdoc="<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8' /><link rel='stylesheet' href='${devFeOrigin}/src/Apps/index.css' /></head><body><div id='thatzfit-root'></div></body></html>"
+                    ></iframe>
+                  </div>
+                \`;
+
+                if (!existingPlugin) {
+                  document.body.appendChild(plugin);
+                }
+              })();
+            `,
+            injectTo: 'body',
+          },
+          {
+            tag: 'script',
+            attrs: {
+              type: 'module',
+              src: `${devFeOrigin}/src/Apps/main.tsx`,
+            },
+            injectTo: 'body',
+          },
+        ],
+      },
+      buildStart() {
+        this.info(`Thatzfit local dev FE origin: ${devFeOrigin}`)
+      },
+    }
+  }
+
   const versionSource = resolveLoaderVersion(command, env)
   const loaderUrl = buildLoaderUrl(
     env.THATZFIT_LOADER_BASE_URL?.trim() || LOADER_BASE_URL,
@@ -199,10 +249,22 @@ const thatzfitLoaderPlugin = (
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env }
+  const devApiOrigin =
+    env.THATZFIT_DEV_API_ORIGIN?.trim() || env.VITE_DEV_SERVER?.trim()
 
   return {
     plugins: [react(), tailwindcss(), thatzfitLoaderPlugin(command, env)],
     base: '/',
+    server: devApiOrigin
+      ? {
+          proxy: {
+            '/api': {
+              target: devApiOrigin,
+              changeOrigin: true,
+            },
+          },
+        }
+      : undefined,
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
