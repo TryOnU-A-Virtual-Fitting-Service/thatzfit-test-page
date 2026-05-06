@@ -32,6 +32,12 @@ npx wrangler@4.86.0 pages deploy dist --project-name thatzfit-demo
 
 The workflow checks out `TryOnU-A-Virtual-Fitting-Service/ThatzFit-FE` to `_external/ThatzFit-FE` before the production build.
 
+The GA4 measurement ID is public and is set in the workflow:
+
+```text
+VITE_GA_MEASUREMENT_ID=G-XGQEV235ZL
+```
+
 The build injects the plugin loader script into `dist/index.html` as:
 
 ```text
@@ -51,6 +57,7 @@ If none of these values is available during a production build, Vite fails with 
 ```bash
 npm ci
 npm run verify:loader-version
+VITE_GA_MEASUREMENT_ID=G-XGQEV235ZL \
 THATZFIT_FE_REPO_PATH=../../ThatzFit-FE npm run deploy
 ```
 

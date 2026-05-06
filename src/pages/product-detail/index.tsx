@@ -2,6 +2,12 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '@/shared/consts/products';
 import { Button } from '@/shared/ui/button';
+import {
+  trackAddToCart,
+  trackAddToWishlist,
+  trackBeginCheckout,
+  trackViewItem,
+} from '@/shared/lib/analytics';
 import { ArrowLeft, Star, Share2, Heart, Truck, Shield } from 'lucide-react';
 
 export const ProductDetailPage: React.FC = () => {
@@ -9,6 +15,12 @@ export const ProductDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const product = PRODUCTS.find((p) => p.id === Number(id));
   const [isLiked, setIsLiked] = React.useState(false);
+
+  React.useEffect(() => {
+    if (product) {
+      trackViewItem(product);
+    }
+  }, [product]);
 
   if (!product) {
     return (
@@ -41,7 +53,13 @@ export const ProductDetailPage: React.FC = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsLiked(!isLiked)}
+              onClick={() => {
+                const nextIsLiked = !isLiked;
+                setIsLiked(nextIsLiked);
+                if (nextIsLiked) {
+                  trackAddToWishlist(product);
+                }
+              }}
             >
               <Heart
                 className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`}
@@ -160,10 +178,14 @@ export const ProductDetailPage: React.FC = () => {
           <Button
             variant="outline"
             className="flex-1 h-14 text-base font-bold border-2 border-[--color-primary] text-[--color-primary] hover:bg-[--color-accent]"
+            onClick={() => trackAddToCart(product)}
           >
             장바구니
           </Button>
-          <Button className="flex-1 h-14 text-base font-bold bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-lg">
+          <Button
+            className="flex-1 h-14 text-base font-bold bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-lg"
+            onClick={() => trackBeginCheckout(product)}
+          >
             바로구매
           </Button>
         </div>

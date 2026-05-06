@@ -1,6 +1,6 @@
-# 🎉 Thazfit - 입어보자 사자
+# ThatzFit Demo
 
-**Thazfit**는 AI 기반 가상 피팅 플러그인을 체험할 수 있는 최신 이커머스 쇼핑몰 데모 사이트입니다.
+**ThatzFit Demo**는 AI 기반 가상 피팅 플러그인을 체험할 수 있는 이커머스 쇼핑몰 데모 사이트입니다.
 
 ## ✨ 주요 기능
 - **홈페이지**: 히어로 배너, 카테고리 칩, 실시간 HOT 상품 리스트
@@ -67,6 +67,23 @@ npm run verify:loader-version
 THATZFIT_FE_REPO_PATH=../../ThatzFit-FE npm run build
 ```
 
+### GA4 analytics
+Production deploys set the public GA4 measurement ID with `VITE_GA_MEASUREMENT_ID=G-XGQEV235ZL`.
+
+Tracked demo events:
+
+- `page_view`: hash-route page views with manual SPA dispatch
+- `view_item_list`: home product grid exposure
+- `select_item`: product card click
+- `view_item`: product detail view
+- `add_to_wishlist`: heart click when adding a like
+- `add_to_cart`: detail page cart button
+- `begin_checkout`: detail page buy-now button
+- `select_promotion`: home hero CTA click
+- `thatzfit_plugin_loaded`: plugin host container detected
+- `thatzfit_plugin_open` / `thatzfit_plugin_close`: plugin panel state
+- `thatzfit_capture_start` / `thatzfit_capture_end`: virtual try-on capture overlay state
+
 ### 배포
 ```bash
 # GitHub Pages 로 배포 (dist 폴더 자동 업로드)
@@ -76,17 +93,22 @@ npm run deploy
 
 ## 📱 메타 태그 (핵심)
 ```html
-<title>Thazfit - 입어보자 사자</title>
-<meta name="description" content="ThatzFit 가상 피팅 플러그인을 테스트할 수 있는 쇼핑몰 사이트입니다. AI 기반 가상 피팅 기술을 체험해보세요." />
-<meta property="og:title" content="Thazfit - 입어보자 사자" />
-<meta property="og:description" content="ThatzFit 가상 피팅 플러그인을 테스트할 수 있는 쇼핑몰 사이트입니다. AI 기반 가상 피팅 기술을 체험해보세요." />
-<meta property="og:image" content="https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page/og-image-v2.png" />
+<title>ThatzFit Demo | AI Virtual Try-On</title>
+<meta name="description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />
+<link rel="canonical" href="https://demo.thatz.fit/" />
+<meta property="og:title" content="ThatzFit Demo | AI Virtual Try-On" />
+<meta property="og:description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />
+<meta property="og:image" content="https://demo.thatz.fit/og-image-v2.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:site_name" content="Thazfit Shopping" />
+<meta property="og:site_name" content="ThatzFit Demo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="ko_KR" />
+<meta property="og:locale:alternate" content="ja_JP" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page/og-image-v2.png" />
-<meta property="kakao:image" content="https://tryonu-a-virtual-fitting-service.github.io/thatzfit-test-page/og-image-v2.png" />
+<meta name="twitter:title" content="ThatzFit Demo | AI Virtual Try-On" />
+<meta name="twitter:description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />
+<meta name="twitter:image" content="https://demo.thatz.fit/og-image-v2.png" />
 ```
 
 ## 🎨 디자인 시스템

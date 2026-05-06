@@ -1,4 +1,14 @@
-export const PRODUCTS = [
+export type Product = {
+  id: number;
+  brand: string;
+  name: string;
+  price: number;
+  discount: number;
+  image: string;
+  description?: string;
+};
+
+export const PRODUCTS: Product[] = [
   {
     id: 1,
     brand: 'Urban Studio',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ProductList } from '@/widgets/product-list';
 import { ChevronRight } from 'lucide-react';
+import { trackHeroPromotionSelect } from '@/shared/lib/analytics';
 
 export const HomePage: React.FC = () => {
   return (
@@ -23,7 +24,10 @@ export const HomePage: React.FC = () => {
             <p className="text-lg md:text-xl mb-6 text-gray-700">
               따뜻하고 스타일리시한 겨울 아이템
             </p>
-            <button className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-3.5 rounded-full font-bold text-base hover:shadow-lg hover:scale-105 transition-all">
+            <button
+              className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-3.5 rounded-full font-bold text-base hover:shadow-lg hover:scale-105 transition-all"
+              onClick={trackHeroPromotionSelect}
+            >
               지금 쇼핑하기
             </button>
           </div>

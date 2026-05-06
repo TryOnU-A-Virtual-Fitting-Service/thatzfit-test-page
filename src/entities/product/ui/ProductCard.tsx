@@ -1,16 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardFooter } from '@/shared/ui/card';
+import type { Product } from '@/shared/consts/products';
+import { trackAddToWishlist } from '@/shared/lib/analytics';
 import { Heart } from 'lucide-react';
-
-export interface Product {
-  id: number;
-  brand: string;
-  name: string;
-  price: number;
-  discount: number;
-  image: string;
-  description?: string;
-}
 
 interface ProductCardProps {
   product: Product;
@@ -43,7 +35,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            setIsLiked(!isLiked);
+            const nextIsLiked = !isLiked;
+            setIsLiked(nextIsLiked);
+            if (nextIsLiked) {
+              trackAddToWishlist(product);
+            }
           }}
           className="absolute top-2 right-2 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:scale-110 transition-transform"
         >
