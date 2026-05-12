@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { trackPageView } from '@/shared/lib/analytics';
+import { trackDemoSiteVisit, trackPageView } from '@/shared/lib/analytics';
 import { PRODUCTS } from '@/shared/consts/products';
 
 function getPageTitle(pathname: string) {
@@ -21,15 +21,28 @@ function getPageLocation(pathname: string, search: string) {
   return `${window.location.origin}${window.location.pathname}${window.location.search}#${pathname}${search}`;
 }
 
+function getPageType(pathname: string) {
+  return pathname.match(/^\/product\/\d+$/) ? 'demo_product_detail' : 'demo_home';
+}
+
 export const AnalyticsTracker: React.FC = () => {
   const location = useLocation();
 
   React.useEffect(() => {
     const pagePath = `#${location.pathname}${location.search}`;
+    const pageTitle = getPageTitle(location.pathname);
+    const pageLocation = getPageLocation(location.pathname, location.search);
+
     trackPageView({
-      pageTitle: getPageTitle(location.pathname),
-      pageLocation: getPageLocation(location.pathname, location.search),
+      pageTitle,
+      pageLocation,
       pagePath,
+    });
+    trackDemoSiteVisit({
+      pageTitle,
+      pageLocation,
+      pagePath,
+      pageType: getPageType(location.pathname),
     });
   }, [location.pathname, location.search]);
 

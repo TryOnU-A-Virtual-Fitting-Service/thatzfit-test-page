@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "verify:loader-version": "node scripts/verify-loader-version.mjs",
+    "test:analytics": "node scripts/verify-analytics.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",

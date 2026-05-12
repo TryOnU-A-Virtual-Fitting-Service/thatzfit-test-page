@@ -18,6 +18,10 @@ const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim();
 const CURRENCY = 'KRW';
 const DEFAULT_ITEM_LIST_ID = 'home_hot_products';
 const DEFAULT_ITEM_LIST_NAME = 'Home hot products';
+const DEMO_SITE_PARAMS = {
+  site_name: 'demo_site',
+  site_domain: 'demo.thatz.fit',
+};
 
 let initializedMeasurementId: string | undefined;
 
@@ -31,6 +35,10 @@ type PageViewParams = {
   pageTitle: string;
   pageLocation: string;
   pagePath: string;
+};
+
+type DemoSiteVisitParams = PageViewParams & {
+  pageType: 'demo_home' | 'demo_product_detail';
 };
 
 function buildAnalyticsItem(product: Product, context: ProductListContext = {}) {
@@ -96,6 +104,20 @@ export function trackPageView(params: PageViewParams) {
     page_location: params.pageLocation,
     page_path: params.pagePath,
   });
+}
+
+export function buildDemoSiteVisitParams(params: DemoSiteVisitParams): GtagParams {
+  return {
+    ...DEMO_SITE_PARAMS,
+    page_type: params.pageType,
+    page_title: params.pageTitle,
+    page_location: params.pageLocation,
+    page_path: params.pagePath,
+  };
+}
+
+export function trackDemoSiteVisit(params: DemoSiteVisitParams) {
+  return sendEvent('demo_site_visit', buildDemoSiteVisitParams(params));
 }
 
 export function trackViewItemList(products: Product[]) {
