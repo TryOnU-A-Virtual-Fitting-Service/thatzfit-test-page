@@ -27,8 +27,8 @@ function loadAnalyticsModule() {
       "const GA_MEASUREMENT_ID = 'G-TEST';",
     )
     .replace(
-      /const MIXPANEL_PROJECT_TOKEN =\s*import\.meta\.env\.VITE_MIXPANEL_PROJECT_TOKEN\?\.trim\(\) \|\|\s*'b2cea665e6ad875fb758099d3ce84315';/,
-      "const MIXPANEL_PROJECT_TOKEN = 'b2cea665e6ad875fb758099d3ce84315';",
+      /const MIXPANEL_PROJECT_TOKEN =\s*import\.meta\.env\.VITE_MIXPANEL_PROJECT_TOKEN\?\.trim\(\) \|\|\s*'fecdaa3150744c2a60d0f442be77aca6';/,
+      "const MIXPANEL_PROJECT_TOKEN = 'fecdaa3150744c2a60d0f442be77aca6';",
     )
     .replaceAll('import.meta.env.DEV', 'false');
   const output = ts.transpileModule(source, {

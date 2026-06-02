@@ -18,7 +18,7 @@ declare global {
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim();
 const MIXPANEL_PROJECT_TOKEN =
   import.meta.env.VITE_MIXPANEL_PROJECT_TOKEN?.trim() ||
-  'b2cea665e6ad875fb758099d3ce84315';
+  'fecdaa3150744c2a60d0f442be77aca6';
 const CURRENCY = 'KRW';
 const DEFAULT_ITEM_LIST_ID = 'home_hot_products';
 const DEFAULT_ITEM_LIST_NAME = 'Home hot products';
