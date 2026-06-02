@@ -1,4 +1,5 @@
 import type { Product } from '@/shared/consts/products';
+import mixpanel from 'mixpanel-browser';
 
 type GtagParams = Record<string, unknown>;
 type GtagCommand =
@@ -15,6 +16,9 @@ declare global {
 }
 
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim();
+const MIXPANEL_PROJECT_TOKEN =
+  import.meta.env.VITE_MIXPANEL_PROJECT_TOKEN?.trim() ||
+  '316f6b4c6cbe476d5dff566b321d1fcc';
 const CURRENCY = 'KRW';
 const DEFAULT_ITEM_LIST_ID = 'home_hot_products';
 const DEFAULT_ITEM_LIST_NAME = 'Home hot products';
@@ -24,6 +28,7 @@ const DEMO_SITE_PARAMS = {
 };
 
 let initializedMeasurementId: string | undefined;
+let initializedMixpanelToken: string | undefined;
 
 type ProductListContext = {
   index?: number;
@@ -57,19 +62,29 @@ function buildAnalyticsItem(product: Product, context: ProductListContext = {}) 
 }
 
 function sendEvent(eventName: string, params?: GtagParams) {
-  if (!initAnalytics() || !window.gtag) {
+  if (typeof window === 'undefined') {
     return false;
   }
 
-  window.gtag('event', eventName, params);
-  return true;
+  const googleAnalyticsInitialized = initGoogleAnalytics();
+  const mixpanelInitialized = initMixpanel();
+
+  if (googleAnalyticsInitialized && window.gtag) {
+    window.gtag('event', eventName, params);
+  }
+
+  if (mixpanelInitialized) {
+    mixpanel.track(eventName, params);
+  }
+
+  return googleAnalyticsInitialized || mixpanelInitialized;
 }
 
 export function isAnalyticsEnabled(measurementId = GA_MEASUREMENT_ID) {
-  return Boolean(measurementId);
+  return Boolean(measurementId || MIXPANEL_PROJECT_TOKEN);
 }
 
-export function initAnalytics(measurementId = GA_MEASUREMENT_ID) {
+function initGoogleAnalytics(measurementId = GA_MEASUREMENT_ID) {
   if (!measurementId || typeof window === 'undefined') {
     return false;
   }
@@ -96,6 +111,40 @@ export function initAnalytics(measurementId = GA_MEASUREMENT_ID) {
   window.gtag('config', measurementId, { send_page_view: false });
   initializedMeasurementId = measurementId;
   return true;
+}
+
+function initMixpanel(token = MIXPANEL_PROJECT_TOKEN) {
+  if (!token || typeof window === 'undefined') {
+    return false;
+  }
+
+  if (initializedMixpanelToken === token) {
+    return true;
+  }
+
+  mixpanel.init(token, {
+    autocapture: false,
+    debug: import.meta.env.DEV,
+    persistence: 'localStorage',
+    record_block_selector: '.mp-block',
+    record_heatmap_data: true,
+    record_mask_all_inputs: false,
+    record_mask_all_text: false,
+    record_mask_input_selector: '.mp-mask, .mp-sensitive',
+    record_mask_text_selector: '.mp-mask, .mp-sensitive',
+    record_sessions_percent: 100,
+    track_pageview: false,
+  });
+  mixpanel.register(DEMO_SITE_PARAMS);
+  initializedMixpanelToken = token;
+  return true;
+}
+
+export function initAnalytics(measurementId = GA_MEASUREMENT_ID) {
+  const googleAnalyticsInitialized = initGoogleAnalytics(measurementId);
+  const mixpanelInitialized = initMixpanel();
+
+  return googleAnalyticsInitialized || mixpanelInitialized;
 }
 
 export function trackPageView(params: PageViewParams) {
