@@ -35,7 +35,7 @@ try {
   const html = readFileSync('dist/index.html', 'utf-8')
   const loaderUrls = [
     ...html.matchAll(
-      /https:\/\/cdn\.thatz\.fit\/plugin\/ThatzfitService\.js\?v=manifest-[a-f0-9]{12}/g,
+      /https:\/\/cdn\.thatzfit\.me\/plugin\/ThatzfitService\.js\?v=manifest-[a-f0-9]{12}/g,
     ),
   ]
 

@@ -41,7 +41,7 @@ VITE_GA_MEASUREMENT_ID=G-XGQEV235ZL
 The build injects the plugin loader script into `dist/index.html` as:
 
 ```text
-https://cdn.thatz.fit/plugin/ThatzfitService.js?v=<resolved-version>
+https://cdn.thatzfit.me/plugin/ThatzfitService.js?v=<resolved-version>
 ```
 
 Resolution order:
@@ -64,5 +64,5 @@ THATZFIT_FE_REPO_PATH=../../ThatzFit-FE npm run deploy
 Production domain:
 
 ```text
-https://demo.thatz.fit
+https://demo.thatzfit.me
 ```

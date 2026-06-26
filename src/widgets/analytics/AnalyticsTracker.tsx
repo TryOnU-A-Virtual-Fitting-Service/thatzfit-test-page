@@ -15,7 +15,7 @@ function getPageTitle(pathname: string) {
 
 function getPageLocation(pathname: string, search: string) {
   if (typeof window === 'undefined') {
-    return `https://demo.thatz.fit/#${pathname}${search}`;
+    return `https://demo.thatzfit.me/#${pathname}${search}`;
   }
 
   return `${window.location.origin}${window.location.pathname}${window.location.search}#${pathname}${search}`;

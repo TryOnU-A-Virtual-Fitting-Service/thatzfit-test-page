@@ -16,7 +16,7 @@ assert.match(analytics, /record_mask_all_text:\s*false/, 'Session Replay text mu
 assert.match(analytics, /record_mask_all_inputs:\s*false/, 'Session Replay ordinary inputs must be visible by default');
 assert.match(analytics, /send_page_view:\s*false/, 'demo-site must keep manual page_view tracking');
 assert.match(analytics, /demo_site_visit/, 'demo-site visit event is missing');
-assert.match(analytics, /site_domain:\s*'demo\.thatz\.fit'/, 'demo-site domain param is missing');
+assert.match(analytics, /site_domain:\s*'demo\.thatzfit\.me'/, 'demo-site domain param is missing');
 assert.match(tracker, /trackPageView/, 'manual page_view tracking is not wired');
 assert.match(tracker, /trackDemoSiteVisit/, 'demo-site visit tracking is not wired');
 
@@ -78,7 +78,7 @@ const runtime = loadAnalyticsModule();
 assert.equal(
   runtime.exports.trackDemoSiteVisit({
     pageTitle: 'ThatzFit Demo | AI Virtual Try-On',
-    pageLocation: 'https://demo.thatz.fit/#/',
+    pageLocation: 'https://demo.thatzfit.me/#/',
     pagePath: '#/',
     pageType: 'demo_home',
   }),
@@ -91,10 +91,10 @@ assert.deepEqual(normalizeEvent(runtime.events.at(-1)), [
   'demo_site_visit',
   {
     site_name: 'demo_site',
-    site_domain: 'demo.thatz.fit',
+    site_domain: 'demo.thatzfit.me',
     page_type: 'demo_home',
     page_title: 'ThatzFit Demo | AI Virtual Try-On',
-    page_location: 'https://demo.thatz.fit/#/',
+    page_location: 'https://demo.thatzfit.me/#/',
     page_path: '#/',
   },
 ]);
@@ -103,10 +103,10 @@ assert.deepEqual(normalizeEvent(runtime.mixpanelEvents.at(-1)), [
   'demo_site_visit',
   {
     site_name: 'demo_site',
-    site_domain: 'demo.thatz.fit',
+    site_domain: 'demo.thatzfit.me',
     page_type: 'demo_home',
     page_title: 'ThatzFit Demo | AI Virtual Try-On',
-    page_location: 'https://demo.thatz.fit/#/',
+    page_location: 'https://demo.thatzfit.me/#/',
     page_path: '#/',
   },
 ]);

@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 
-const LOADER_BASE_URL = 'https://cdn.thatz.fit/plugin/ThatzfitService.js'
+const LOADER_BASE_URL = 'https://cdn.thatzfit.me/plugin/ThatzfitService.js'
 const FE_MANIFEST_ENTRY = 'src/Apps/main.tsx'
 const DEFAULT_FE_MANIFEST_PATH = resolve(
   __dirname,

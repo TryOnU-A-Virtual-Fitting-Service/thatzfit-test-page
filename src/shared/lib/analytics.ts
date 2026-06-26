@@ -24,7 +24,7 @@ const DEFAULT_ITEM_LIST_ID = 'home_hot_products';
 const DEFAULT_ITEM_LIST_NAME = 'Home hot products';
 const DEMO_SITE_PARAMS = {
   site_name: 'demo_site',
-  site_domain: 'demo.thatz.fit',
+  site_domain: 'demo.thatzfit.me',
 };
 
 let initializedMeasurementId: string | undefined;

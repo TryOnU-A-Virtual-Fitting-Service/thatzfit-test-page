@@ -95,10 +95,10 @@ npm run deploy
 ```html
 <title>ThatzFit Demo | AI Virtual Try-On</title>
 <meta name="description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />
-<link rel="canonical" href="https://demo.thatz.fit/" />
+<link rel="canonical" href="https://demo.thatzfit.me/" />
 <meta property="og:title" content="ThatzFit Demo | AI Virtual Try-On" />
 <meta property="og:description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />
-<meta property="og:image" content="https://demo.thatz.fit/og-image-v2.png" />
+<meta property="og:image" content="https://demo.thatzfit.me/og-image-v2.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:site_name" content="ThatzFit Demo" />
@@ -108,7 +108,7 @@ npm run deploy
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="ThatzFit Demo | AI Virtual Try-On" />
 <meta name="twitter:description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />
-<meta name="twitter:image" content="https://demo.thatz.fit/og-image-v2.png" />
+<meta name="twitter:image" content="https://demo.thatzfit.me/og-image-v2.png" />
 ```
 
 ## 🎨 디자인 시스템
