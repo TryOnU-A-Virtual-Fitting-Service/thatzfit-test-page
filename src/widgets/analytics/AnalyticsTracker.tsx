@@ -15,10 +15,10 @@ function getPageTitle(pathname: string) {
 
 function getPageLocation(pathname: string, search: string) {
   if (typeof window === 'undefined') {
-    return `https://demo.thatzfit.me/#${pathname}${search}`;
+    return `https://demo.thatzfit.me${pathname}${search}`;
   }
 
-  return `${window.location.origin}${window.location.pathname}${window.location.search}#${pathname}${search}`;
+  return `${window.location.origin}${pathname}${search}`;
 }
 
 function getPageType(pathname: string) {
@@ -29,7 +29,7 @@ export const AnalyticsTracker: React.FC = () => {
   const location = useLocation();
 
   React.useEffect(() => {
-    const pagePath = `#${location.pathname}${location.search}`;
+    const pagePath = `${location.pathname}${location.search}`;
     const pageTitle = getPageTitle(location.pathname);
     const pageLocation = getPageLocation(location.pathname, location.search);
 
