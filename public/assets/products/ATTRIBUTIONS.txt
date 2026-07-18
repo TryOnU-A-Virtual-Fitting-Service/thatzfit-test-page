@@ -1,0 +1,15 @@
+ThatzFit demo product image credits
+
+product-15.webp
+- Source: (US) JACKET, FIELD, OD (SECOND TYPE - STOCK No 55-J-200-55-J-304), 2002.1766.jpg
+- Creator: Talon Zipper
+- Source page: https://commons.wikimedia.org/wiki/File:(US)_JACKET,_FIELD,_OD_(SECOND_TYPE_-_STOCK_No_55-J-200-55-J-304),_2002.1766.jpg
+- License: CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/)
+- Changes: background removed, isolated garment normalized to a transparent 1024 x 1024 WebP.
+
+product-16.webp
+- Source: Trainingpants.jpg
+- Creator: Kuha455405
+- Source page: https://commons.wikimedia.org/wiki/File:Trainingpants.jpg
+- License: CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/)
+- Changes: background removed, isolated garment normalized to a transparent 1024 x 1024 WebP.

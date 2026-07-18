@@ -62,6 +62,14 @@ export const Footer: React.FC = () => {
           <p className="text-center text-xs text-stone-500">
             {copy.copyright}
           </p>
+          <p className="mt-2 text-center text-xs text-stone-500">
+            <a
+              href="/assets/products/ATTRIBUTIONS.txt"
+              className="underline underline-offset-4 transition-colors hover:text-stone-950"
+            >
+              {copy.imageCredits}
+            </a>
+          </p>
         </div>
       </div>
     </footer>

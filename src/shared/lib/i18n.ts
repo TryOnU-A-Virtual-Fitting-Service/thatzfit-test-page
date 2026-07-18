@@ -69,6 +69,7 @@ type DemoCopy = {
     helpTitle: string;
     helpHours: string;
     companyLines: string[];
+    imageCredits: string;
     copyright: string;
   };
   seo: {
@@ -146,6 +147,7 @@ export const demoCopy: Record<Locale, DemoCopy> = {
         '통신판매업신고: 2024-서울강남-00000 | 개인정보보호책임자: 김철수',
         '주소: 서울특별시 강남구 테헤란로 123, 4층',
       ],
+      imageCredits: '상품 이미지 출처',
       copyright: '© 2026 ThatzFit. All rights reserved.',
     },
     seo: {
@@ -223,6 +225,7 @@ export const demoCopy: Record<Locale, DemoCopy> = {
         'Mail-order registration: 2024-Seoul Gangnam-00000 | Privacy officer: Chulsoo Kim',
         'Address: 4F, 123 Teheran-ro, Gangnam-gu, Seoul, Korea',
       ],
+      imageCredits: 'Product image credits',
       copyright: '© 2026 ThatzFit. All rights reserved.',
     },
     seo: {
