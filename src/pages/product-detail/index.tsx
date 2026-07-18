@@ -100,7 +100,7 @@ export const ProductDetailPage: React.FC = () => {
               <h2 className="mb-3 text-xs font-semibold uppercase text-stone-500">
                 {product.brand}
               </h2>
-              <h1 className="font-serif text-4xl leading-tight md:text-5xl">
+              <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
                 {product.name}
               </h1>
             </div>
