@@ -1,3 +1,5 @@
+import type { Locale } from '@/shared/lib/i18n';
+
 export type Product = {
   id: number;
   brand: string;
@@ -8,185 +10,344 @@ export type Product = {
   description?: string;
 };
 
-export const PRODUCTS: Product[] = [
+type ProductContent = Pick<Product, 'brand' | 'name' | 'description'>;
+
+type ProductCatalogItem = Omit<Product, keyof ProductContent> & {
+  content: Record<Locale, ProductContent>;
+};
+
+const PRODUCT_CATALOG: ProductCatalogItem[] = [
   {
     id: 1,
-    brand: 'Urban Studio',
-    name: 'Oversized Wool Coat',
-    price: 129000,
-    discount: 15,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/zBGw9GgczZw/pr:GOODS_DETAIL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzIwMjIwOTA1XzE2NjIzODQ0Mjk2NDk5NDNtLmpwZw',
-    description: 'Premium wool blend coat with an oversized fit. Perfect for winter layering.'
+    price: 39000,
+    discount: 0,
+    image: '/assets/products/product-01.webp',
+    content: {
+      ko: {
+        brand: 'Clean Layer',
+        name: '화이트 크루넥 티셔츠',
+        description:
+          '정면 실루엣과 넥라인이 또렷한 기본 티셔츠입니다. 단독 착용과 레이어링 모두 확인하기 좋은 데일리 상의입니다.',
+      },
+      en: {
+        brand: 'Clean Layer',
+        name: 'White Crew Neck Tee',
+        description:
+          'A clean crew neck tee with a clear front silhouette and neckline, useful for checking both solo wear and layering.',
+      },
+    },
   },
   {
     id: 2,
-    brand: 'Minimalist',
-    name: 'Essential Cotton Tee',
-    price: 35000,
-    discount: 0,
-    image: 'https://image.musinsa.com/mfile_s01/2016/09/12/3fb5ed13afe8714a7e5d13ee506003dd175703.jpg',
-    description: '100% organic cotton t-shirt. Breathable and comfortable for everyday wear.'
+    price: 69000,
+    discount: 20,
+    image: '/assets/products/product-02.webp',
+    content: {
+      ko: {
+        brand: 'Urban Studio',
+        name: '블랙 슬리브리스 탑',
+        description:
+          '암홀과 어깨선이 분명한 슬리브리스 탑입니다. 여름 단독 착용과 가을 이너 스타일링을 비교하기 좋습니다.',
+      },
+      en: {
+        brand: 'Urban Studio',
+        name: 'Black Sleeveless Top',
+        description:
+          'A sleeveless top with a defined shoulder line and armhole, suited for summer looks and early-fall layering.',
+      },
+    },
   },
   {
     id: 3,
-    brand: 'Denim Co.',
-    name: 'Vintage Straight Jeans',
-    price: 89000,
+    price: 76000,
     discount: 10,
-    image: 'https://image.msscdn.net/thumbnails/display/images/usersnap/2024/02/23/a5dd608607dd4422977df25d9f600650.jpg?w=780',
-    description: 'Classic straight leg jeans with a vintage wash. Durable denim fabric.'
+    image: '/assets/products/product-03.webp',
+    content: {
+      ko: {
+        brand: 'Minimalist',
+        name: '블랙 버튼 가디건',
+        description:
+          '가벼운 두께의 버튼 가디건입니다. 티셔츠 위에 걸친 가을 초입 스타일을 확인하기 좋은 상의입니다.',
+      },
+      en: {
+        brand: 'Minimalist',
+        name: 'Black Button Cardigan',
+        description:
+          'A lightweight button cardigan for early-fall layering over a tee while keeping the garment shape easy to read.',
+      },
+    },
   },
   {
     id: 4,
-    brand: 'Active Gear',
-    name: 'Performance Puffer Jacket',
-    price: 159000,
-    discount: 25,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/zQbLOget5Rk/pr:GOODS_DETAIL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzIwMjUwMTAxXzE3MzU3MzcwMDYxMDEzMDZtLmpwZw',
-    description: 'Lightweight yet warm puffer jacket. Water-resistant and perfect for outdoor activities.'
+    price: 98000,
+    discount: 15,
+    image: '/assets/products/product-04.webp',
+    content: {
+      ko: {
+        brand: 'Soft Daily',
+        name: '그레이 집업 후디',
+        description:
+          '후드, 지퍼, 포켓 라인이 잘 보이는 집업 후디입니다. 선선한 날씨의 캐주얼 피팅 데모에 적합합니다.',
+      },
+      en: {
+        brand: 'Soft Daily',
+        name: 'Gray Zip Hoodie',
+        description:
+          'A zip hoodie with visible hood, zipper, and pocket structure for casual early-fall try-on demos.',
+      },
+    },
   },
   {
     id: 5,
-    brand: 'Classic Footwear',
-    name: 'Leather Chelsea Boots',
-    price: 199000,
-    discount: 5,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/m6xs4zLLBn4/pr:GOODS_DETAIL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzIwMjUwOTIwXzE3NTgzNzExNTg4ODM5NDhtLmpwZw',
-    description: 'Genuine leather chelsea boots. Sleek design suitable for both casual and formal occasions.'
+    price: 84000,
+    discount: 12,
+    image: '/assets/products/product-05.webp',
+    content: {
+      ko: {
+        brand: 'Field Kit',
+        name: '블루 그래픽 저지',
+        description:
+          '전면 그래픽과 패턴이 선명한 반팔 저지입니다. 디테일 보존이 중요한 가상피팅 확인에 좋습니다.',
+      },
+      en: {
+        brand: 'Field Kit',
+        name: 'Blue Graphic Jersey',
+        description:
+          'A short-sleeve jersey with clear front graphics and pattern detail, useful for checking detail preservation.',
+      },
+    },
   },
   {
     id: 6,
-    brand: 'Accessories Lab',
-    name: 'Wool Blend Scarf',
-    price: 45000,
-    discount: 0,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/49XzGx99gAg/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzgwYmY0MjdkMzNhYzBmZjZhMTE1NzQ5MDA1YzYzMmRhLmpwZw',
-    description: 'Soft wool blend scarf to keep you warm. Available in neutral colors.'
+    price: 86000,
+    discount: 12,
+    image: '/assets/products/product-06.webp',
+    content: {
+      ko: {
+        brand: 'Field Kit',
+        name: '스트라이프 그래픽 저지',
+        description:
+          '스트라이프와 소매 디테일이 뚜렷한 반팔 저지입니다. 프린트가 있는 상의 피팅 품질을 보기 좋습니다.',
+      },
+      en: {
+        brand: 'Field Kit',
+        name: 'Striped Graphic Jersey',
+        description:
+          'A striped short-sleeve jersey with strong sleeve and print detail for reviewing printed top try-on quality.',
+      },
+    },
   },
   {
     id: 7,
-    brand: 'Street Style',
-    name: 'Oversized Hoodie',
-    price: 68000,
-    discount: 20,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/6FjezoJbmm8/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzNmNmEyZjg1OGZjNzNlNWVmZDRiMWE2NzY5YjNmMzQ5LmpwZw',
-    description: '편안한 오버핏 후드티. 부드러운 기모 안감으로 따뜻하게 착용 가능합니다.'
+    price: 79000,
+    discount: 25,
+    image: '/assets/products/product-07.webp',
+    content: {
+      ko: {
+        brand: 'Motion Lab',
+        name: '블랙 트랙 팬츠',
+        description:
+          '허리 밴드와 스트레이트 실루엣이 분명한 트랙 팬츠입니다. 상의와 함께 매치해 보기 좋은 하의입니다.',
+      },
+      en: {
+        brand: 'Motion Lab',
+        name: 'Black Track Pants',
+        description:
+          'Track pants with a clear waistband and straight silhouette, useful for pairing with summer and fall tops.',
+      },
+    },
   },
   {
     id: 8,
-    brand: 'Knit House',
-    name: 'Cashmere Blend Sweater',
-    price: 145000,
-    discount: 30,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/LkRnZfKZODQ/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzJiZTcxZmEwMTg0NDQyNDVjYzAxZmVmYjQ5ZWQwYmQ4LkpQRw',
-    description: '캐시미어 혼방 니트. 고급스러운 질감과 보온성이 뛰어난 겨울 필수 아이템.'
+    price: 78000,
+    discount: 8,
+    image: '/assets/products/product-08.webp',
+    content: {
+      ko: {
+        brand: 'Ease Studio',
+        name: '베이지 와이드 핀턱 팬츠',
+        description:
+          '전면 핀턱과 넉넉한 라인이 보이는 와이드 팬츠입니다. 가벼운 상의와 함께 여름-가을 룩을 만들기 좋습니다.',
+      },
+      en: {
+        brand: 'Ease Studio',
+        name: 'Beige Wide Pintuck Pants',
+        description:
+          'Wide pants with visible front pintucks and an easy silhouette for summer-to-fall outfit combinations.',
+      },
+    },
   },
   {
     id: 9,
-    brand: 'Feminine',
-    name: 'Floral Midi Dress',
-    price: 98000,
-    discount: 15,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/MmBmVqa4RyY/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzk1ZDg4YzRhNDY2Mzk4ZWMzOWZiOWE5MDA1MDc2MDRlLmpwZw',
-    description: '로맨틱한 플로럴 패턴의 미디 원피스. 데이트룩으로 완벽한 아이템.'
+    price: 189000,
+    discount: 18,
+    image: '/assets/products/product-09.webp',
+    content: {
+      ko: {
+        brand: 'North Archive',
+        name: '블랙 하이넥 푸퍼 재킷',
+        description:
+          '볼륨감 있는 퀼팅과 하이넥 실루엣이 선명한 푸퍼 재킷입니다. 겨울 아우터의 부피감과 길이를 확인하기 좋습니다.',
+      },
+      en: {
+        brand: 'North Archive',
+        name: 'Black High-Neck Puffer Jacket',
+        description:
+          'A high-neck puffer with a defined quilted volume for reviewing the length and shape of winter outerwear.',
+      },
+    },
   },
   {
     id: 10,
-    brand: 'Sport Line',
-    name: 'Running Sneakers',
-    price: 129000,
-    discount: 35,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/kcc1vhgJ5jw/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzQ5ZjQyZDdhMTIyNWQ2MWNjOGUzNDkxYWU4ZDQyY2RiLmpwZw',
-    description: '쿠셔닝이 뛰어난 러닝화. 가볍고 통기성 좋은 메쉬 소재 사용.'
+    price: 92000,
+    discount: 10,
+    image: '/assets/products/product-10.webp',
+    content: {
+      ko: {
+        brand: 'Daily Form',
+        name: '라이트 그레이 집업 후디',
+        description:
+          '밝은 멜란지 컬러와 자연스러운 드레이프가 돋보이는 집업 후디입니다. 데일리 레이어드 룩을 비교하기 좋습니다.',
+      },
+      en: {
+        brand: 'Daily Form',
+        name: 'Light Gray Zip Hoodie',
+        description:
+          'A light melange zip hoodie with an easy drape, suited for comparing everyday layered looks.',
+      },
+    },
   },
   {
     id: 11,
-    brand: 'Bag Studio',
-    name: 'Leather Crossbody Bag',
-    price: 185000,
-    discount: 10,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/qIvnQ5EnT9s/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzMxZmVkMTA2NWRiNTk0ODYxNjhmN2I5N2Y5ODMzMWRlLmpwZw',
-    description: '고급 천연 가죽 크로스백. 실용적인 수납공간과 세련된 디자인.'
+    price: 83000,
+    discount: 15,
+    image: '/assets/products/product-11.webp',
+    content: {
+      ko: {
+        brand: 'Motion Lab',
+        name: '블랙 스트레이트 스웨트팬츠',
+        description:
+          '군더더기 없는 스트레이트 라인의 블랙 팬츠입니다. 상의와 자연스럽게 매치되는 하의 피팅을 확인할 수 있습니다.',
+      },
+      en: {
+        brand: 'Motion Lab',
+        name: 'Black Straight Sweatpants',
+        description:
+          'Clean black sweatpants with a straight leg for reviewing balanced top-and-bottom try-on combinations.',
+      },
+    },
   },
   {
     id: 12,
-    brand: 'Denim Lab',
-    name: 'Wide Leg Denim Pants',
-    price: 79000,
-    discount: 25,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/lpdkSeLwpbY/pr:NEW_GOODS_THUMB_STILL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzI1Nzk1M2IxMzQ4Y2MyMjk3MGVhYzA5ZGYxOTBiNDNiLmpwZw',
-    description: '트렌디한 와이드 핏 데님. 편안한 착용감과 스타일리시한 실루엣.'
+    price: 168000,
+    discount: 20,
+    image: '/assets/products/product-12.webp',
+    content: {
+      ko: {
+        brand: 'Field Notes',
+        name: '올리브 레이어드 필드 재킷',
+        description:
+          '코듀로이 칼라와 체크 안감이 포인트인 필드 재킷입니다. 소재와 레이어드 디테일 보존을 확인하기 좋습니다.',
+      },
+      en: {
+        brand: 'Field Notes',
+        name: 'Olive Layered Field Jacket',
+        description:
+          'An olive field jacket with a corduroy collar and checked lining for reviewing layered material details.',
+      },
+    },
   },
   {
     id: 13,
-    brand: 'Cozy Wear',
-    name: 'Fleece Zip-Up Jacket',
-    price: 59000,
-    discount: 40,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/8Ib3yM2apVs/pr:GOODS_DETAIL/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzIwMjUwOTE1XzE3NTc5Mzk4MzY1MTk5ODZtLmpwZw',
-    description: '부드러운 플리스 집업. 가볍고 따뜻한 이너 아우터로 활용도 높음.'
+    price: 118000,
+    discount: 12,
+    image: '/assets/products/product-13.webp',
+    content: {
+      ko: {
+        brand: 'Washed Works',
+        name: '브라운 워시드 후디',
+        description:
+          '빈티지한 워싱과 여유로운 볼륨이 특징인 브라운 후디입니다. 오버핏 상의의 실루엣을 확인하기 좋습니다.',
+      },
+      en: {
+        brand: 'Washed Works',
+        name: 'Brown Washed Hoodie',
+        description:
+          'A brown hoodie with a vintage wash and relaxed volume for reviewing oversized top silhouettes.',
+      },
+    },
   },
   {
     id: 14,
-    brand: 'Chic Style',
-    name: 'Pleated Mini Skirt',
-    price: 52000,
-    discount: 0,
-    image: 'https://image.msscdn.net/thumbnails/images/goods_img/20250124/4742374/4742374_17376769864704_big.jpg?w=1200',
-    description: '여성스러운 플리츠 미니스커트. 다양한 상의와 매치하기 좋은 베이직 아이템.'
+    price: 96000,
+    discount: 8,
+    image: '/assets/products/product-14.webp',
+    content: {
+      ko: {
+        brand: 'Cloud Standard',
+        name: '애시 그레이 풀집 후디',
+        description:
+          '도톰한 원단과 넓은 소매 라인이 돋보이는 풀집 후디입니다. 편안한 캐주얼 핏을 비교하기 좋습니다.',
+      },
+      en: {
+        brand: 'Cloud Standard',
+        name: 'Ash Gray Full-Zip Hoodie',
+        description:
+          'A substantial full-zip hoodie with roomy sleeves for comparing relaxed casual fits.',
+      },
+    },
   },
   {
     id: 15,
-    brand: 'Winter Essentials',
-    name: 'Padded Long Parka',
-    price: 198000,
-    discount: 20,
-    image: 'https://image.msscdn.net/thumbnails/images/goods_img/20240321/3974521/3974521_17170445297482_big.jpg?w=1200',
-    description: '롱 패딩 파카. 충전재가 풍성하여 보온성이 뛰어나며 방풍 기능까지.'
+    price: 154000,
+    discount: 0,
+    image: '/assets/products/product-15.webp',
+    content: {
+      ko: {
+        brand: 'Archive Utility',
+        name: '빈티지 올리브 유틸리티 재킷',
+        description:
+          '자연스러운 사용감과 포켓 구조가 살아 있는 유틸리티 재킷입니다. 워크웨어 아우터의 입체감을 확인하기 좋습니다.',
+      },
+      en: {
+        brand: 'Archive Utility',
+        name: 'Vintage Olive Utility Jacket',
+        description:
+          'A vintage olive utility jacket with visible wear and pocket structure for reviewing dimensional workwear outerwear.',
+      },
+    },
   },
   {
     id: 16,
-    brand: 'Urban Basics',
-    name: 'Turtleneck Knit Top',
-    price: 48000,
-    discount: 15,
-    image: 'https://image.msscdn.net/thumbnails/images/goods_img/20210910/2122596/2122596_17182428329624_big.jpg?w=1200',
-    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
-  },
-  {
-    id: 17,
-    brand: 'Urban Basics',
-    name: 'Turtleneck Knit Top',
-    price: 48000,
-    discount: 15,
-    image: 'https://image.msscdn.net/thumbnails/images/goods_img/20250310/4873589/4873589_17415693259604_big.jpg?w=1200',
-    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
-  },
-  {
-    id: 18,
-    brand: 'Urban Basics',
-    name: 'Turtleneck Knit Top',
-    price: 48000,
-    discount: 15,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/cJDbmBQDn2Y/pr:NEW_GOODS_THUMB_WEBP/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzL2M2ZjFiYmFiZjcwMzNiMmQ0YzdlZDdhNmViZDBjYzM2LmdpZg',
-    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
-  },
-  {
-    id: 19,
-    brand: 'Urban Basics',
-    name: 'Turtleneck Knit Top',
-    price: 48000,
-    discount: 15,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/bAJY98Fa_2Y/pr:NEW_GOODS_THUMB_WEBP/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzk5MDcwMGUzYWM5Mzk4YzRjOWM5YTU1YjM0ZWVjYWZiLmpwZw',
-    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
-  },
-  {
-    id: 20,
-    brand: 'Urban Basics',
-    name: 'Turtleneck Knit Top',
-    price: 48000,
-    discount: 15,
-    image: 'https://d3ha2047wt6x28.cloudfront.net/GJgsBTTHg2E/pr:NEW_GOODS_THUMB_WEBP/czM6Ly9hYmx5LWltYWdlLWxlZ2FjeS9kYXRhL2dvb2RzLzM0OGQ2OGVlNjMxZDRlMWRmMTg4MDYxM2IwOGFiNDMyLmpwZw',
-    description: '심플한 터틀넥 니트. 레이어드하기 좋은 슬림 핏 디자인.'
+    price: 74000,
+    discount: 18,
+    image: '/assets/products/product-16.webp',
+    content: {
+      ko: {
+        brand: 'Track Standard',
+        name: '버건디 사이드라인 트랙 팬츠',
+        description:
+          '버건디 컬러와 화이트 사이드라인이 선명한 트랙 팬츠입니다. 대비가 강한 하의 디테일 보존을 확인하기 좋습니다.',
+      },
+      en: {
+        brand: 'Track Standard',
+        name: 'Burgundy Side-Stripe Track Pants',
+        description:
+          'Burgundy track pants with crisp white side stripes for reviewing high-contrast bottom details.',
+      },
+    },
   },
 ];
+
+export function getLocalizedProducts(locale: Locale): Product[] {
+  return PRODUCT_CATALOG.map(({ content, ...product }) => ({
+    ...product,
+    ...content[locale],
+  }));
+}
+
+export function getLocalizedProduct(id: number, locale: Locale): Product | undefined {
+  return getLocalizedProducts(locale).find((product) => product.id === id);
+}
+
+export const PRODUCTS: Product[] = getLocalizedProducts('ko');

@@ -5,6 +5,7 @@
 ## ✨ 주요 기능
 - **홈페이지**: 히어로 배너, 카테고리 칩, 실시간 HOT 상품 리스트
 - **상품 상세**: 고해상도 이미지 갤러리, 옵션 선택, 장바구니 담기
+- **한국어/영어 지원**: `?locale=en` query와 언어 스위처로 데모 UI와 상품 카탈로그 전환
 - **가상 피팅 플러그인**: `ThatzfitService.js` 를 통해 AI 가상 피팅 기능을 바로 테스트 가능
 - **프리미엄 디자인**: Tailwind CSS 기반 그라데이션, 마이크로 애니메이션, 다크 모드 지원
 - **빠른 개발 환경**: Vite + React 19 + TypeScript
@@ -102,9 +103,8 @@ npm run deploy
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:site_name" content="ThatzFit Demo" />
-<meta property="og:locale" content="en_US" />
-<meta property="og:locale:alternate" content="ko_KR" />
-<meta property="og:locale:alternate" content="ja_JP" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:locale:alternate" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="ThatzFit Demo | AI Virtual Try-On" />
 <meta name="twitter:description" content="Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners." />

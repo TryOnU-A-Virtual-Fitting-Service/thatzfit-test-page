@@ -2,79 +2,109 @@ import React from 'react';
 import { ProductList } from '@/widgets/product-list';
 import { ChevronRight } from 'lucide-react';
 import { trackHeroPromotionSelect } from '@/shared/lib/analytics';
+import { demoCopy, useLocale } from '@/shared/lib/i18n';
+import { getLocalizedProducts } from '@/shared/consts/products';
 
 export const HomePage: React.FC = () => {
+  const locale = useLocale();
+  const copy = demoCopy[locale].home;
+  const heroProducts = React.useMemo(
+    () => getLocalizedProducts(locale).slice(0, 3),
+    [locale],
+  );
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Banner */}
-      <div className="relative h-[45vh] w-full overflow-hidden bg-gradient-to-br from-pink-100 via-rose-50 to-orange-50">
-        <img 
-          src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" 
-          alt="Hero" 
-          className="w-full h-full object-cover mix-blend-multiply opacity-80"
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center px-4">
-            <div className="inline-block bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
-              <span className="text-sm font-bold text-[--color-primary]">🎉 WINTER SALE UP TO 70%</span>
+    <div className="min-h-screen bg-[#f7f5f0] text-stone-950">
+      <section
+        aria-labelledby="editorial-hero-title"
+        className="border-b border-stone-200 bg-[#f7f5f0]"
+      >
+        <div className="mx-auto grid max-w-[1440px] grid-cols-1 lg:min-h-[560px] lg:grid-cols-[0.46fr_0.54fr]">
+          <div className="min-w-0 flex flex-col justify-center px-5 py-10 sm:px-8 sm:py-14 lg:px-16 lg:py-16">
+            <div className="mb-6 flex items-center gap-4 text-sm text-stone-600 lg:mb-8">
+              <span className="h-px w-12 bg-stone-400" aria-hidden="true" />
+              <span>{copy.heroBadge}</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900">
-              겨울 신상 컬렉션
-            </h1>
-            <p className="text-lg md:text-xl mb-6 text-gray-700">
-              따뜻하고 스타일리시한 겨울 아이템
-            </p>
-            <button
-              className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-3.5 rounded-full font-bold text-base hover:shadow-lg hover:scale-105 transition-all"
-              onClick={trackHeroPromotionSelect}
+            <h1
+              id="editorial-hero-title"
+              className="max-w-xl break-words text-balance font-serif text-[44px] leading-none text-stone-950 sm:text-[64px] lg:text-[76px]"
             >
-              지금 쇼핑하기
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Category Chips */}
-      <div className="w-full px-4 py-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
-            {[
-              { emoji: '🔥', label: '오늘의 특가' },
-              { emoji: '⚡', label: '타임특가' },
-              { emoji: '🎁', label: '무료배송' },
-              { emoji: '💝', label: '신규회원' },
-              { emoji: '🌟', label: '베스트' },
-            ].map((chip) => (
+              {copy.heroTitle}
+            </h1>
+            <p className="mt-6 max-w-md break-words text-base leading-7 text-stone-600 sm:text-lg lg:mt-7">
+              {copy.heroSubtitle}
+            </p>
+            <div className="mt-8 flex gap-3 lg:mt-10">
               <button
-                key={chip.label}
-                className="flex items-center gap-1.5 px-4 py-2 bg-[--color-muted] rounded-full text-sm font-medium whitespace-nowrap hover:bg-[--color-accent] transition-colors"
+                className="min-h-12 flex-1 whitespace-normal border border-stone-950 bg-stone-950 px-5 py-3 text-sm font-medium leading-tight text-white transition-colors hover:bg-stone-800 sm:flex-none sm:px-8"
+                onClick={trackHeroPromotionSelect}
               >
-                <span>{chip.emoji}</span>
-                <span>{chip.label}</span>
+                {copy.heroCta}
               </button>
-            ))}
+              <button className="min-h-12 flex-1 whitespace-normal border border-stone-400 bg-transparent px-5 py-3 text-sm font-medium leading-tight text-stone-900 transition-colors hover:border-stone-950 sm:flex-none sm:px-8">
+                {copy.chips[1]?.label}
+              </button>
+            </div>
+            <div className="mt-10 hidden max-w-xl grid-cols-2 gap-x-8 gap-y-5 border-t border-stone-300 pt-6 sm:grid lg:mt-12">
+              {copy.chips.map((chip) => (
+                <div key={chip.label}>
+                  <p className="text-sm font-semibold text-stone-950">
+                    {chip.label}
+                  </p>
+                  <p className="mt-1 break-words text-sm leading-5 text-stone-500">
+                    {chip.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div
+            className="relative min-h-[180px] overflow-hidden bg-[#ebe7df] sm:min-h-[320px] lg:min-h-[560px]"
+            aria-label={copy.heroAlt}
+          >
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(235,231,223,0.2))]" />
+            <div className="absolute left-8 top-8 hidden text-xs text-stone-500 lg:block">
+              01 / 16
+            </div>
+            <div className="relative grid h-full grid-cols-3 items-center gap-3 px-6 py-8 sm:gap-4 sm:px-12 sm:py-12 lg:px-16">
+              {heroProducts.map((product, index) => (
+                <div
+                  key={product.id}
+                  className={`flex h-full items-center justify-center ${
+                    index === 1 ? 'translate-y-10' : ''
+                  }`}
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="max-h-[140px] w-full object-contain sm:max-h-[260px] lg:max-h-[420px]"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Section Header */}
-      <div className="w-full px-4">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex items-center justify-between mb-4">
+      <section className="bg-white px-5 py-10 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-[1440px]">
+          <div className="mb-8 flex items-end justify-between gap-5">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">지금 HOT한 상품 🔥</h2>
-              <p className="text-sm text-[--color-muted-foreground] mt-0.5">실시간 인기 상품을 만나보세요</p>
+              <h2 className="font-serif text-3xl leading-tight text-stone-950">
+                {copy.sectionTitle}
+              </h2>
+              <p className="mt-2 text-sm text-stone-500">
+                {copy.sectionSubtitle}
+              </p>
             </div>
-            <button className="flex items-center gap-1 text-sm font-medium text-[--color-muted-foreground] hover:text-[--color-primary] transition-colors">
-              전체보기
+            <button className="flex items-center gap-2 border-b border-stone-950 pb-1 text-sm text-stone-950 transition-colors hover:text-stone-500">
+              {copy.viewAll}
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+          <ProductList />
         </div>
-      </div>
-      
-      <ProductList />
-
+      </section>
     </div>
   );
 };

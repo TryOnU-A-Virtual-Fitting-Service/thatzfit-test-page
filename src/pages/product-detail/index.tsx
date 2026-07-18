@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PRODUCTS } from '@/shared/consts/products';
+import { getLocalizedProduct } from '@/shared/consts/products';
 import { Button } from '@/shared/ui/button';
 import {
   trackAddToCart,
@@ -8,12 +8,20 @@ import {
   trackBeginCheckout,
   trackViewItem,
 } from '@/shared/lib/analytics';
+import {
+  demoCopy,
+  formatPrice,
+  getLocaleSearch,
+  useLocale,
+} from '@/shared/lib/i18n';
 import { ArrowLeft, Star, Share2, Heart, Truck, Shield } from 'lucide-react';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = PRODUCTS.find((p) => p.id === Number(id));
+  const locale = useLocale();
+  const copy = demoCopy[locale].product;
+  const product = getLocalizedProduct(Number(id), locale);
   const [isLiked, setIsLiked] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,8 +34,10 @@ export const ProductDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">상품을 찾을 수 없습니다</h2>
-          <Button onClick={() => navigate('/')}>홈으로 돌아가기</Button>
+          <h2 className="text-2xl font-bold mb-4">{copy.notFoundTitle}</h2>
+          <Button onClick={() => navigate(`/${getLocaleSearch(locale)}`)}>
+            {copy.backHome}
+          </Button>
         </div>
       </div>
     );
@@ -39,20 +49,21 @@ export const ProductDetailPage: React.FC = () => {
       : product.price;
 
   return (
-    <div className="min-h-screen bg-white pb-32 md:pb-20">
+    <div className="min-h-screen bg-[#f7f5f0] pb-48 text-stone-950 md:pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-white border-b border-[--color-border]">
-        <div className="container mx-auto px-4 py-3 max-w-4xl flex items-center justify-between">
+      <div className="sticky top-0 z-40 border-b border-stone-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" aria-label={copy.shareLabel}>
               <Share2 className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
+              aria-label={copy.wishlistLabel}
               onClick={() => {
                 const nextIsLiked = !isLiked;
                 setIsLiked(nextIsLiked);
@@ -69,103 +80,108 @@ export const ProductDetailPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+      <div className="mx-auto max-w-6xl px-4 py-8 md:py-14">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[0.58fr_0.42fr] md:gap-12">
           {/* Image Section - Reduced size */}
-          <div className="w-full md:w-1/2">
-            <div className="aspect-[3/4] bg-[--color-muted] rounded-lg overflow-hidden max-w-md mx-auto relative group">
+          <div>
+            <div className="relative mx-auto aspect-[4/5] max-w-2xl overflow-hidden bg-[#ebe7df]">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-contain p-8 md:p-12"
               />
             </div>
           </div>
 
           {/* Info Section */}
-          <div className="flex flex-col md:w-1/2">
+          <div className="flex flex-col bg-[#f7f5f0] md:pt-8">
             {/* Brand & Title */}
-            <div className="mb-4">
-              <h2 className="text-sm font-bold text-[--color-muted-foreground] uppercase tracking-wide mb-2">
+            <div className="border-b border-stone-300 pb-6">
+              <h2 className="mb-3 text-xs font-semibold uppercase text-stone-500">
                 {product.brand}
               </h2>
-              <h1 className="text-xl font-bold mb-3 leading-tight">
+              <h1 className="font-serif text-4xl leading-tight md:text-5xl">
                 {product.name}
               </h1>
             </div>
 
             {/* Rating */}
-            <div className="flex items-center gap-2 mb-6 pb-6 border-b border-[--color-border]">
+            <div className="flex items-center gap-2 border-b border-stone-300 py-5">
               <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star
                     key={star}
-                    className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                    className="h-4 w-4 fill-stone-900 text-stone-900"
                   />
                 ))}
               </div>
               <span className="text-sm font-medium">4.8</span>
-              <span className="text-sm text-[--color-muted-foreground]">
-                (1,234)
+              <span className="text-sm text-stone-500">
+                (1,234 {copy.reviews})
               </span>
             </div>
 
             {/* Price */}
-            <div className="mb-6 pb-6 border-b border-[--color-border]">
-              <div className="flex items-center gap-3 mb-2">
+            <div className="border-b border-stone-300 py-6">
+              <div className="mb-2 flex items-center gap-3">
                 {product.discount > 0 && (
-                  <span className="text-2xl font-bold text-[--color-primary]">
+                  <span className="text-xl font-semibold text-[#6f7458]">
                     {product.discount}%
                   </span>
                 )}
-                <span className="text-2xl font-bold">
-                  {product.price.toLocaleString()}원
+                <span className="text-3xl font-semibold">
+                  {formatPrice(product.price, locale)}
                 </span>
               </div>
               {product.discount > 0 && (
                 <div className="flex items-center gap-2">
-                  <span className="text-base text-[--color-muted-foreground] line-through">
-                    {discountedPrice.toLocaleString()}원
+                  <span className="text-sm text-stone-400 line-through">
+                    {formatPrice(discountedPrice, locale)}
                   </span>
-                  <span className="text-sm font-medium text-red-500">
-                    {(discountedPrice - product.price).toLocaleString()}원 할인
+                  <span className="text-sm font-medium text-stone-500">
+                    {copy.discountAmount(
+                      formatPrice(discountedPrice - product.price, locale),
+                    )}
                   </span>
                 </div>
               )}
             </div>
 
             {/* Benefits */}
-            <div className="mb-6 pb-6 border-b border-[--color-border] space-y-3">
+            <div className="space-y-4 border-b border-stone-300 py-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[--color-accent] flex items-center justify-center">
-                  <Truck className="w-5 h-5 text-[--color-primary]" />
+                <div className="flex h-10 w-10 items-center justify-center border border-stone-300 bg-white">
+                  <Truck className="h-5 w-5 text-stone-700" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">무료배송</p>
-                  <p className="text-xs text-[--color-muted-foreground]">
-                    오늘 주문시 내일 도착
+                  <p className="text-sm font-medium">
+                    {copy.benefits.deliveryTitle}
+                  </p>
+                  <p className="text-xs text-stone-500">
+                    {copy.benefits.deliveryDescription}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[--color-accent] flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-[--color-primary]" />
+                <div className="flex h-10 w-10 items-center justify-center border border-stone-300 bg-white">
+                  <Shield className="h-5 w-5 text-stone-700" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">안심구매</p>
-                  <p className="text-xs text-[--color-muted-foreground]">
-                    7일 이내 무료 반품
+                  <p className="text-sm font-medium">
+                    {copy.benefits.returnTitle}
+                  </p>
+                  <p className="text-xs text-stone-500">
+                    {copy.benefits.returnDescription}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Description */}
-            <div className="mb-8">
-              <h3 className="text-base font-bold mb-3">상품 정보</h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                {product.description ||
-                  '고품질 소재로 제작된 프리미엄 상품입니다. 세련된 디자인과 뛰어난 착용감으로 일상에서 편안하게 착용하실 수 있습니다.'}
+            <div className="py-6">
+              <h3 className="mb-3 text-base font-semibold">{copy.infoTitle}</h3>
+              <p className="text-sm leading-7 text-stone-600">
+                {product.description || copy.fallbackDescription}
               </p>
             </div>
           </div>
@@ -173,20 +189,20 @@ export const ProductDetailPage: React.FC = () => {
       </div>
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[--color-border] p-4 shadow-lg">
-        <div className="container mx-auto max-w-4xl flex gap-3">
+      <div className="fixed bottom-[65px] left-0 right-0 z-40 border-t border-stone-200 bg-white p-4 shadow-[0_-12px_30px_rgba(28,27,25,0.08)] md:bottom-0">
+        <div className="mx-auto flex max-w-4xl gap-3">
           <Button
             variant="outline"
-            className="flex-1 h-14 text-base font-bold border-2 border-[--color-primary] text-[--color-primary] hover:bg-[--color-accent]"
+            className="h-14 flex-1 rounded-none border-2 border-stone-950 text-base font-semibold text-stone-950 hover:bg-stone-100"
             onClick={() => trackAddToCart(product)}
           >
-            장바구니
+            {copy.cart}
           </Button>
           <Button
-            className="flex-1 h-14 text-base font-bold bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-lg"
+            className="h-14 flex-1 rounded-none bg-stone-950 text-base font-semibold text-white hover:bg-stone-800"
             onClick={() => trackBeginCheckout(product)}
           >
-            바로구매
+            {copy.buyNow}
           </Button>
         </div>
       </div>

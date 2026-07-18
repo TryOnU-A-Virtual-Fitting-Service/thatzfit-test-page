@@ -6,7 +6,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, "dist");
 const productsSource = readFileSync(join(root, "src/shared/consts/products.ts"), "utf8");
 const siteOrigin = "https://demo.thatzfit.me";
-const contentLastmod = "2026-06-27";
+const contentLastmod = "2026-07-10";
 
 const productIds = Array.from(productsSource.matchAll(/id:\s*(\d+),/g))
   .map((match) => Number(match[1]))
@@ -21,10 +21,18 @@ function sitemapUrl(pathname, priority) {
   </url>`;
 }
 
-const urls = [
-  sitemapUrl("/", "1.0"),
-  ...productIds.map((id) => sitemapUrl(`/product/${id}`, "0.6")),
+const localizedPathnames = [
+  { pathname: "/", priority: "1.0" },
+  { pathname: "/?locale=en", priority: "0.9" },
+  ...productIds.flatMap((id) => [
+    { pathname: `/product/${id}`, priority: "0.6" },
+    { pathname: `/product/${id}?locale=en`, priority: "0.5" },
+  ]),
 ];
+
+const urls = localizedPathnames.map(({ pathname, priority }) =>
+  sitemapUrl(pathname, priority),
+);
 
 mkdirSync(dist, { recursive: true });
 writeFileSync(

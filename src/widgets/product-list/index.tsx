@@ -1,37 +1,38 @@
 import React from 'react';
 import { ProductCard } from '@/entities/product/ui/ProductCard';
 import { useNavigate } from 'react-router-dom';
-import { PRODUCTS } from '@/shared/consts/products';
+import { getLocalizedProducts } from '@/shared/consts/products';
 import { trackSelectItem, trackViewItemList } from '@/shared/lib/analytics';
+import { getLocaleSearch, useLocale } from '@/shared/lib/i18n';
 
 export const ProductList: React.FC = () => {
   const navigate = useNavigate();
-  const hasTrackedListView = React.useRef(false);
+  const locale = useLocale();
+  const products = React.useMemo(() => getLocalizedProducts(locale), [locale]);
+  const trackedLocales = React.useRef(new Set<string>());
 
   React.useEffect(() => {
-    if (hasTrackedListView.current) {
+    if (trackedLocales.current.has(locale)) {
       return;
     }
 
-    hasTrackedListView.current = true;
-    trackViewItemList(PRODUCTS);
-  }, []);
+    trackedLocales.current.add(locale);
+    trackViewItemList(products);
+  }, [locale, products]);
 
   return (
-    <section className="w-full px-4 pb-8">
-      <div className="w-full flex justify-center items-center p-4">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {PRODUCTS.map((product, index) => (
-            <ProductCard 
-              key={product.id} 
-              product={product}
-              onClick={() => {
-                trackSelectItem(product, { index });
-                navigate(`/product/${product.id}`);
-              }}
-            />
-          ))}
-        </div>
+    <section className="w-full">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-9 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+        {products.map((product, index) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onClick={() => {
+              trackSelectItem(product, { index });
+              navigate(`/product/${product.id}${getLocaleSearch(locale)}`);
+            }}
+          />
+        ))}
       </div>
     </section>
   );

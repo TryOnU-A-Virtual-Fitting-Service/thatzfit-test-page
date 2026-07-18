@@ -1,16 +1,21 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { trackDemoSiteVisit, trackPageView } from '@/shared/lib/analytics';
-import { PRODUCTS } from '@/shared/consts/products';
+import { getLocalizedProducts } from '@/shared/consts/products';
+import { demoCopy, useLocale } from '@/shared/lib/i18n';
 
-function getPageTitle(pathname: string) {
+function getPageTitle(
+  pathname: string,
+  products: ReturnType<typeof getLocalizedProducts>,
+  homeTitle: string,
+) {
   const productMatch = pathname.match(/^\/product\/(\d+)$/);
   if (productMatch) {
-    const product = PRODUCTS.find((item) => item.id === Number(productMatch[1]));
-    return product ? `${product.name} | ThatzFit Demo` : 'Product | ThatzFit Demo';
+    const product = products.find((item) => item.id === Number(productMatch[1]));
+    return product ? `${product.name} | ThatzFit Demo` : homeTitle;
   }
 
-  return 'ThatzFit Demo | AI Virtual Try-On';
+  return homeTitle;
 }
 
 function getPageLocation(pathname: string, search: string) {
@@ -27,10 +32,16 @@ function getPageType(pathname: string) {
 
 export const AnalyticsTracker: React.FC = () => {
   const location = useLocation();
+  const locale = useLocale();
+  const products = React.useMemo(() => getLocalizedProducts(locale), [locale]);
 
   React.useEffect(() => {
     const pagePath = `${location.pathname}${location.search}`;
-    const pageTitle = getPageTitle(location.pathname);
+    const pageTitle = getPageTitle(
+      location.pathname,
+      products,
+      demoCopy[locale].seo.homeTitle,
+    );
     const pageLocation = getPageLocation(location.pathname, location.search);
 
     trackPageView({
@@ -44,7 +55,7 @@ export const AnalyticsTracker: React.FC = () => {
       pagePath,
       pageType: getPageType(location.pathname),
     });
-  }, [location.pathname, location.search]);
+  }, [locale, location.pathname, location.search, products]);
 
   return null;
 };

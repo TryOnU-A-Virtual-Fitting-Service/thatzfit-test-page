@@ -1,11 +1,16 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PRODUCTS, type Product } from '@/shared/consts/products';
+import { getLocalizedProduct, type Product } from '@/shared/consts/products';
+import {
+  type Locale,
+  demoCopy,
+  getLocaleSearch,
+  ogLocales,
+  useLocale,
+} from '@/shared/lib/i18n';
 
 const SITE_ORIGIN = 'https://demo.thatzfit.me';
 const DEFAULT_IMAGE = `${SITE_ORIGIN}/og-image-v2.png`;
-const DEFAULT_DESCRIPTION =
-  'Explore a public shopping demo with the ThatzFit AI virtual try-on plugin for fashion ecommerce partners.';
 
 function upsertMeta(selector: string, create: () => HTMLMetaElement, content: string) {
   const existing = document.head.querySelector<HTMLMetaElement>(selector);
@@ -36,13 +41,9 @@ function upsertJsonLd(id: string, data: Record<string, unknown>) {
   }
 }
 
-function getProduct(pathname: string) {
+function getProduct(pathname: string, locale: Locale) {
   const match = pathname.match(/^\/product\/(\d+)$/);
-  return match ? PRODUCTS.find((product) => product.id === Number(match[1])) : undefined;
-}
-
-function productDescription(product: Product) {
-  return `${product.brand} ${product.name} ThatzFit demo product page. Preview how AI virtual try-on fits inside a fashion ecommerce product detail flow.`;
+  return match ? getLocalizedProduct(Number(match[1]), locale) : undefined;
 }
 
 function buildWebPageJsonLd(title: string, description: string, canonicalUrl: string) {
@@ -65,7 +66,11 @@ function buildWebPageJsonLd(title: string, description: string, canonicalUrl: st
   };
 }
 
-function buildProductJsonLd(product: Product, canonicalUrl: string) {
+function buildProductJsonLd(
+  product: Product,
+  canonicalUrl: string,
+  description: string,
+) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -74,7 +79,7 @@ function buildProductJsonLd(product: Product, canonicalUrl: string) {
       '@type': 'Brand',
       name: product.brand,
     },
-    description: product.description ?? productDescription(product),
+    description: product.description ?? description,
     image: product.image,
     url: canonicalUrl,
     offers: {
@@ -89,18 +94,23 @@ function buildProductJsonLd(product: Product, canonicalUrl: string) {
 
 export const SeoManager: React.FC = () => {
   const location = useLocation();
+  const locale = useLocale();
 
   React.useEffect(() => {
-    const product = getProduct(location.pathname);
+    const copy = demoCopy[locale].seo;
+    const product = getProduct(location.pathname, locale);
     const canonicalPath = product ? `/product/${product.id}` : '/';
-    const canonicalUrl = `${SITE_ORIGIN}${canonicalPath}`;
+    const canonicalUrl = `${SITE_ORIGIN}${canonicalPath}${getLocaleSearch(locale)}`;
     const title = product
-      ? `${product.name} | ThatzFit AI Virtual Try-On Demo`
-      : 'ThatzFit Demo | AI Virtual Try-On';
-    const description = product ? productDescription(product) : DEFAULT_DESCRIPTION;
+      ? copy.productTitle(product.name)
+      : copy.homeTitle;
+    const description = product
+      ? copy.productDescription(product.brand, product.name)
+      : copy.homeDescription;
     const image = product?.image ?? DEFAULT_IMAGE;
+    const alternateLocale = locale === 'ko' ? 'en' : 'ko';
 
-    document.documentElement.lang = 'ko';
+    document.documentElement.lang = locale;
     document.title = title;
 
     upsertMeta('meta[name="description"]', () => {
@@ -133,6 +143,16 @@ export const SeoManager: React.FC = () => {
       meta.setAttribute('property', 'og:image');
       return meta;
     }, image);
+    upsertMeta('meta[property="og:locale"]', () => {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:locale');
+      return meta;
+    }, ogLocales[locale]);
+    upsertMeta('meta[property="og:locale:alternate"]', () => {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:locale:alternate');
+      return meta;
+    }, ogLocales[alternateLocale]);
     upsertMeta('meta[name="twitter:title"]', () => {
       const meta = document.createElement('meta');
       meta.name = 'twitter:title';
@@ -156,9 +176,11 @@ export const SeoManager: React.FC = () => {
 
     upsertJsonLd(
       'thatzfit-demo-structured-data',
-      product ? buildProductJsonLd(product, canonicalUrl) : buildWebPageJsonLd(title, description, canonicalUrl),
+      product
+        ? buildProductJsonLd(product, canonicalUrl, description)
+        : buildWebPageJsonLd(title, description, canonicalUrl),
     );
-  }, [location.pathname]);
+  }, [locale, location.pathname]);
 
   return null;
 };

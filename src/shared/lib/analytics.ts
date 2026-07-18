@@ -221,8 +221,8 @@ export function trackBeginCheckout(product: Product) {
 
 export function trackHeroPromotionSelect() {
   return sendEvent('select_promotion', {
-    promotion_id: 'winter_sale_2026',
-    promotion_name: 'Winter sale up to 70',
+    promotion_id: 'summer_fall_edit_2026',
+    promotion_name: 'Summer fall edit up to 50',
     creative_name: 'home_hero',
     creative_slot: 'home_hero_primary_cta',
   });
