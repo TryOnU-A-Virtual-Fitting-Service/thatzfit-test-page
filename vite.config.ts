@@ -164,6 +164,10 @@ const thatzfitLoaderPlugin = (
   env: Env,
 ): Plugin => {
   const devFeOrigin = env.THATZFIT_DEV_FE_ORIGIN?.trim().replace(/\/$/, '')
+  const devInjectorOrigin = env.THATZFIT_DEV_INJECTOR_ORIGIN?.trim().replace(
+    /\/$/,
+    '',
+  )
 
   if (command === 'serve' && devFeOrigin) {
     return {
@@ -205,10 +209,26 @@ const thatzfitLoaderPlugin = (
             },
             injectTo: 'body',
           },
+          ...(devInjectorOrigin
+            ? [
+                {
+                  tag: 'script',
+                  attrs: { type: 'module' },
+                  children: `
+                    import { initializeMobileProductTryOnTags } from '${devInjectorOrigin}/src/mobileProductTryOn.ts';
+                    initializeMobileProductTryOnTags();
+                  `,
+                  injectTo: 'body' as const,
+                },
+              ]
+            : []),
         ],
       },
       buildStart() {
         this.info(`Thatzfit local dev FE origin: ${devFeOrigin}`)
+        if (devInjectorOrigin) {
+          this.info(`Thatzfit local dev injector origin: ${devInjectorOrigin}`)
+        }
       },
     }
   }

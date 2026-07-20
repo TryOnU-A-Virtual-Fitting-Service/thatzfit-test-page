@@ -86,6 +86,7 @@ export const ProductDetailPage: React.FC = () => {
           <div>
             <div className="relative mx-auto aspect-[4/5] max-w-2xl overflow-hidden bg-[#ebe7df]">
               <img
+                data-thatzfit-product-image="true"
                 src={product.image}
                 alt={product.name}
                 className="h-full w-full object-contain p-8 md:p-12"

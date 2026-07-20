@@ -42,6 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-[#f3f0ea]">
         <img
+          data-thatzfit-product-image="true"
           src={product.image}
           alt={product.name}
           className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
@@ -61,7 +62,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               trackAddToWishlist(product);
             }
           }}
-          className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center bg-white/90 text-stone-700 backdrop-blur transition-colors hover:text-stone-950"
+          className="absolute right-3 top-14 z-20 flex h-8 w-8 items-center justify-center bg-white/90 text-stone-700 backdrop-blur transition-colors hover:text-stone-950 [@media(hover:hover)]:top-3"
           aria-label={product.name}
         >
           <Heart
