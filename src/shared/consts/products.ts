@@ -25,13 +25,13 @@ const PRODUCT_CATALOG: ProductCatalogItem[] = [
     content: {
       ko: {
         brand: 'Clean Layer',
-        name: '화이트 크루넥 티셔츠',
+        name: '블랙 크루넥 티셔츠',
         description:
           '정면 실루엣과 넥라인이 또렷한 기본 티셔츠입니다. 단독 착용과 레이어링 모두 확인하기 좋은 데일리 상의입니다.',
       },
       en: {
         brand: 'Clean Layer',
-        name: 'White Crew Neck Tee',
+        name: 'Black Crew Neck Tee',
         description:
           'A clean crew neck tee with a clear front silhouette and neckline, useful for checking both solo wear and layering.',
       },

@@ -10,7 +10,7 @@ interface ProductCardProps {
 }
 
 const productSwatches: Record<number, string[]> = {
-  1: ['#f6f4ef', '#d9d4c8'],
+  1: ['#171717', '#4a4a47'],
   2: ['#181816', '#6f735f'],
   3: ['#171717', '#eee9df'],
   4: ['#d8d8d4', '#25344f', '#8f969a'],
